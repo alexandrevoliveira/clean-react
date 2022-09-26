@@ -1,8 +1,6 @@
 {
   "name": "clean-react",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
@@ -12,9 +10,6 @@
     "test:ci": "npm t -- --coverage",
     "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/faker": "^5.5.9",
     "@types/jest": "^29.0.3",
