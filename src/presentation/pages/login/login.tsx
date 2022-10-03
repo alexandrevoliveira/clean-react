@@ -8,7 +8,7 @@ type Props = {
   validation?: Validation
 }
 
-const Login: React.FC<Props> = ({ validation }: Props) => {
+const Login: React.FC<Props> = ({ validation }) => {
   const [state, setState] = useState({
     isLoading: false,
     email: '',
