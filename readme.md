@@ -7,6 +7,7 @@
 ## [**Link para a documentação da API**](http://fordevs.herokuapp.com/api-docs)
 
 > ## Princípios
+
 * Single Responsibility Principle (SRP)
 * Open Closed Principle (OCP)
 * Liskov Substitution Principle (LSP)
@@ -19,6 +20,7 @@
 * Small Commits
 
 > ## Design Patterns
+
 * Factory
 * Adapter
 * Composite
@@ -28,6 +30,7 @@
 * Composition Root
 
 > ## Metodologias e Designs
+
 * TDD
 * Clean Architecture
 * DDD
@@ -41,6 +44,7 @@
 * Continuous Deployment
 
 > ## Bibliotecas e Ferramentas
+
 * React
 * Typescript
 * Git
@@ -59,12 +63,16 @@
 * Standard Javascript Style
 
 > ## Features do React
+
 * React Router
 * UseState
 * UseContext
+* UseEffect
+* Memo
 * Functional Components
 
 > ## Features do Git
+
 * Alias
 * Log Personalizado
 * Branch
@@ -76,6 +84,7 @@
 * Merge
 
 > ## Features do Typescript
+
 * POO Avançado
 * Interface
 * Type Alias
@@ -86,6 +95,7 @@
 * Generics
 
 > ## Features de Testes
+
 * Testes Unitários
 * Testes de Integração
 * Testes e2e
