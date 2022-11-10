@@ -31,6 +31,12 @@ const makeSut = (params?: SutParams): SutTypes => {
   }
 }
 
+const mockedUseNavigate = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedUseNavigate
+}))
+
 const simulateValidSubmit = (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): void => {
   populateEmailField(sut, email)
   populatePasswordField(sut, password)
@@ -157,6 +163,8 @@ describe('Login Component', () => {
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+    expect(window.history.length).toBe(1)
+    expect(mockedUseNavigate).toHaveBeenCalledWith('/', { replace: true })
   })
 
   it('should go to signup page', async () => {
