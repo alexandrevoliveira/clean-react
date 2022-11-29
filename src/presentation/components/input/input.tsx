@@ -10,7 +10,7 @@ const Input: React.FC<Props> = (props: Props) => {
   const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
     event.target.readOnly = false
   }
-  const handleChange = (event: React.FocusEvent<HTMLInputElement>): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setState({
       ...state,
       [event.target.name]: event.target.value
