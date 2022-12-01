@@ -12,6 +12,7 @@
     "test:watch": "npm t -- --watch",
     "test:staged": "npm t -- --findRelatedTests",
     "test:ci": "npm t -- --coverage",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
     "check": "npm-check -s -u",
     "prepare": "husky install"
   },
@@ -25,6 +26,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "clean-webpack-plugin": "^4.0.0",
+    "coveralls": "^3.1.1",
     "css-loader": "^6.7.2",
     "eslint": "^8.28.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
