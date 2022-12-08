@@ -1,5 +1,5 @@
 import { SetStorage } from '@/data/protocols/cache'
-import { SaveAccessToken } from '@/domain/usecases/save-access-token'
+import { SaveAccessToken } from '@/domain/usecases'
 
 export class LocalSaveAccessToken implements SaveAccessToken {
   constructor (private readonly setStorage: SetStorage) {}
