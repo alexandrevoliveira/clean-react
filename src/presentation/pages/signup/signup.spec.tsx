@@ -180,4 +180,15 @@ describe('SignUp Component', () => {
     expect(window.history.length).toBe(1)
     expect(mockedUseNavigate).toHaveBeenCalledWith('/', { replace: true })
   })
+
+  it('should present error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut()
+    const error = new EmailInUseError()
+    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+    await simulateValidSubmit(sut)
+    await waitFor(() => {
+      Helper.testElementText(sut, 'main-error', error.message)
+    })
+    Helper.testChildCount(sut, 'error-wrap', 1)
+  })
 })
