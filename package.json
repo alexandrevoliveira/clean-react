@@ -13,6 +13,7 @@
     "test:staged": "npm t -- --findRelatedTests",
     "test:ci": "npm t -- --coverage",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
+    "test:cypress": "cypress open",
     "check": "npm-check -s -u",
     "prepare": "husky install"
   },
@@ -28,8 +29,10 @@
     "clean-webpack-plugin": "^4.0.0",
     "coveralls": "^3.1.1",
     "css-loader": "^6.7.2",
+    "cypress": "^12.2.0",
     "eslint": "^8.28.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.1",
