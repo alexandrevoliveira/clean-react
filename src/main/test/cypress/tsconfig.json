@@ -2,7 +2,8 @@
   "compilerOptions": {
     "noEmit": true,
     "types": ["cypress"],
-    "isolatedModules": false
+    "isolatedModules": false,
+    "esModuleInterop": true
   },
   "include": [
     "../../../../node_modules/cypress",
