@@ -28,7 +28,7 @@ describe('RemoteLoadSurveyList', () => {
     expect(httpGetClientSpy.url).toBe(url)
   })
 
-  it('Should throw UnexpectedError if HttpGetClient returns 403', async () => {
+  it('should throw UnexpectedError if HttpGetClient returns 403', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.forbidden
@@ -37,7 +37,7 @@ describe('RemoteLoadSurveyList', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  it('Should throw UnexpectedError if HttpGetClient returns 404', async () => {
+  it('should throw UnexpectedError if HttpGetClient returns 404', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.notFound
@@ -46,7 +46,7 @@ describe('RemoteLoadSurveyList', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  it('Should throw UnexpectedError if HttpGetClient returns 500', async () => {
+  it('should throw UnexpectedError if HttpGetClient returns 500', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.serverError
@@ -55,7 +55,7 @@ describe('RemoteLoadSurveyList', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  it('Should return a list of SurveyModel if HttpGetClient returns 200', async () => {
+  it('should return a list of SurveyModel if HttpGetClient returns 200', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     const httpResult = mockSurveyListModel()
     httpGetClientSpy.response = {
@@ -64,5 +64,14 @@ describe('RemoteLoadSurveyList', () => {
     }
     const surveyList = await sut.loadAll()
     expect(surveyList).toEqual(httpResult)
+  })
+
+  it('should return an empty list if HttpGetClient returns 204', async () => {
+    const { sut, httpGetClientSpy } = makeSut()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.noContent
+    }
+    const surveyList = await sut.loadAll()
+    expect(surveyList).toEqual([])
   })
 })
