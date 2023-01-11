@@ -11,7 +11,7 @@ const SurveyList: React.FC = () => {
         <ul>
           <li>
             <div className={Styles.surveyContent}>
-              <Icon className={Styles.iconWrap} iconName={IconName.thumbUp} />
+              <Icon className={Styles.iconWrap} iconName={IconName.thumbDown} />
               <time>
                 <span className={Styles.day}>22</span>
                 <span className={Styles.month}>03</span>
@@ -21,6 +21,9 @@ const SurveyList: React.FC = () => {
             </div>
             <footer>Ver resultado</footer>
           </li>
+          <li></li>
+          <li></li>
+          <li></li>
         </ul>
       </div>
       <Footer />
