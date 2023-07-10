@@ -1,9 +1,9 @@
-import { HttpPostClientSpy } from '@/data/test'
 import { HttpStatusCode } from '@/data/protocols/http'
+import { HttpPostClientSpy } from '@/data/test'
+import { RemoteAddAccount } from '@/data/usecases'
 import { EmailInUseError, UnexpectedError } from '@/domain/errors'
 import { AccountModel } from '@/domain/models'
 import { mockAccountModel, mockAddAccountParams } from '@/domain/test'
-import { RemoteAddAccount } from './remote-add-account'
 import faker from 'faker'
 
 type SutTypes = {

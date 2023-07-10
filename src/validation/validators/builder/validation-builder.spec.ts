@@ -1,5 +1,4 @@
-import { CompareFieldsValidation, EmailValidation, MinLengthValidation, RequiredFieldValidation } from '@/validation/validators'
-import { ValidationBuilder as sut } from './validation-builder'
+import { ValidationBuilder as sut, CompareFieldsValidation, EmailValidation, MinLengthValidation, RequiredFieldValidation } from '@/validation/validators'
 import faker from 'faker'
 
 describe('ValidationBuilder', () => {

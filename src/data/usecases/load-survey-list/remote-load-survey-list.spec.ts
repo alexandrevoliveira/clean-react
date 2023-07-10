@@ -1,9 +1,9 @@
 import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy } from '@/data/test'
+import { RemoteLoadSurveyList } from '@/data/usecases'
 import { UnexpectedError } from '@/domain/errors'
 import { SurveyModel } from '@/domain/models'
 import { mockSurveyListModel } from '@/domain/test'
-import { RemoteLoadSurveyList } from './remote-load-survey-list'
 import faker from 'faker'
 
 type SutTypes = {

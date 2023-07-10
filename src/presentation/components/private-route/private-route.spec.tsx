@@ -1,10 +1,10 @@
 import { mockAccountModel } from '@/domain/test'
+import { PrivateRoute } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyList } from '@/presentation/pages'
-import PrivateRoute from './private-route'
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { render } from '@testing-library/react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React from 'react'
 
 const makeSut = (account = mockAccountModel()): void => {
   render(

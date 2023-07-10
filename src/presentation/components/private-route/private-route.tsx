@@ -1,6 +1,6 @@
 import { ApiContext } from '@/presentation/contexts'
-import React, { useContext } from 'react'
 import { Navigate } from 'react-router-dom'
+import React, { useContext } from 'react'
 
 type Props = {
   children: React.ReactElement

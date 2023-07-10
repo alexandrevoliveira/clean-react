@@ -1,11 +1,10 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
-import { makeLogin } from '@/main/factories/pages/login/login-factory'
-import { makeSignUp } from '@/main/factories/pages/signup/signup-factory'
-import { SurveyList } from '@/presentation/pages'
-import { ApiContext } from '@/presentation/contexts'
+import { makeLogin, makeSignUp } from '@/main/factories/pages'
 import { PrivateRoute } from '@/presentation/components'
+import { ApiContext } from '@/presentation/contexts'
+import { SurveyList } from '@/presentation/pages'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React from 'react'
 
 const Router: React.FC = () => {
   return (
