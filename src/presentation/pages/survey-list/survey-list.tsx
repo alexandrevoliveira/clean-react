@@ -6,7 +6,7 @@ import { Error, SurveyContext, SurveyListItem } from '@/presentation/pages/surve
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-  loadSurveyList?: LoadSurveyList
+  loadSurveyList: LoadSurveyList
 }
 
 const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
@@ -17,7 +17,7 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
   })
 
   useEffect(() => {
-    loadSurveyList?.loadAll()
+    loadSurveyList.loadAll()
       .then(surveys => setState({ ...state, surveys }))
       .catch(error => setState({ ...state, error: error.message }))
   }, [state.reload])

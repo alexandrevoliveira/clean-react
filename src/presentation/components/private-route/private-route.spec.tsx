@@ -1,7 +1,7 @@
 import { mockAccountModel } from '@/domain/test'
+import { makeSurveyList } from '@/main/factories/pages'
 import { PrivateRoute } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
-import { SurveyList } from '@/presentation/pages'
 import { render } from '@testing-library/react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import React from 'react'
@@ -9,9 +9,9 @@ import React from 'react'
 const makeSut = (account = mockAccountModel()): void => {
   render(
     <ApiContext.Provider value={{ getCurrentAccount: () => account }}>
-      <BrowserRouter>
+      <BrowserRouter window={window}>
         <Routes>
-          <Route path='/' element={<PrivateRoute><SurveyList /></PrivateRoute>} />
+          <Route path='/' element={<PrivateRoute>{makeSurveyList({})}</PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </ApiContext.Provider>
