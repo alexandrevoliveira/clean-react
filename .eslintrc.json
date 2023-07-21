@@ -17,14 +17,15 @@
     "project": ["./tsconfig-eslint.json"]
   },
   "rules": {
+    "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off",
-    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/no-confusing-void-expression": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
-    "@typescript-eslint/consistent-indexed-object-style": "off",
-    "@typescript-eslint/no-confusing-void-expression": "off",
+    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/prop-types": "off"
