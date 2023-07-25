@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import React, { memo, useContext } from 'react'
 
 const Header: React.FC = () => {
-  const { setCurrentAccount } = useContext(ApiContext)
+  const { setCurrentAccount, getCurrentAccount } = useContext(ApiContext)
   const navigate = useNavigate()
   const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
     event.preventDefault()
@@ -14,14 +14,14 @@ const Header: React.FC = () => {
   }
   return (
     <header className={Styles.headerWrap}>
-        <div className={Styles.headerContent}>
-          <Logo />
-          <div className={Styles.logoutWrap}>
-            <span>Alexandre</span>
-            <a data-testid="logout" href="#" onClick={logout}>Sair</a>
-          </div>
+      <div className={Styles.headerContent}>
+        <Logo />
+        <div className={Styles.logoutWrap}>
+          <span data-testid="username">{getCurrentAccount().name}</span>
+          <a data-testid="logout" href="#" onClick={logout}>Sair</a>
         </div>
-      </header>
+      </div>
+    </header>
   )
 }
 
