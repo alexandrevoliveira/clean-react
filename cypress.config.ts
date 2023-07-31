@@ -1,7 +1,7 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  fixturesFolder: false,
+  fixturesFolder: 'src/main/test/cypress/fixtures',
   e2e: {
     baseUrl: 'http://localhost:8080',
     supportFile: 'src/main/test/cypress/support/index.js',
