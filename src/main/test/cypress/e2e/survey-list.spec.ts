@@ -18,4 +18,11 @@ describe('Login', () => {
     cy.visit('')
     Helper.testUrl('/login')
   })
+
+  it('should present correct username', () => {
+    Http.mockUnexpectedError()
+    cy.visit('')
+    const { name } = Helper.getLocalStorageItem('account')
+    cy.getByTestId('username').should('contain.text', name)
+  })
 })
