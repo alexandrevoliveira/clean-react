@@ -6,7 +6,9 @@ import faker from 'faker'
 const path = /signup/
 const mockEmailInUseError = (): void => Http.mockForbiddenError(path, 'POST')
 const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
-const mockSuccess = (): void => Http.mockOk(path, 'POST', 'fx:account')
+const mockSuccess = (): void => {
+  cy.fixture('account').then(account => Http.mockOk(path, 'POST', account))
+}
 
 const populateFields = (): void => {
   cy.getByTestId('name').focus().type(faker.name.findName())
@@ -81,8 +83,8 @@ describe('SignUp', () => {
   })
 
   it('should store account on LocalStorage if valid credentials are provided', () => {
-    mockSuccess()
     simulateValidSubmit()
+    mockSuccess()
     cy.getByTestId('error-wrap').should('not.have.descendants')
     Helper.testUrl('/')
     Helper.testLocalStorageItem('account')
