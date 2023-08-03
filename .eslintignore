@@ -2,5 +2,7 @@ node_modules
 .vscode
 coverage
 public
+dist
 *.scss
+*.json
 cypress.config.*
