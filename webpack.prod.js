@@ -34,7 +34,7 @@ module.exports = merge(common, {
       'process.env.API_URL': JSON.stringify('http://localhost:5050/api')
     }),
     new HtmlWebpackPlugin({
-      template: './template.dev.html'
+      template: './template.prod.html'
     }),
     new MiniCssExtractPlugin({
       filename: 'main-bundle-[fullhash].css'
