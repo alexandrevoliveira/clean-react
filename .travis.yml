@@ -4,3 +4,8 @@ node_js:
 script:
   - npm run lint
   - npm run test:coveralls
+build:
+  provider: heroku
+  api_key: $HEROKU_API
+  app: clean-react-x
+  skip_cleanup: true
