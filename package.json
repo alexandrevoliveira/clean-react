@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index",
     "build": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "dev:base": "webpack-dev-server --config webpack.dev.js",
+    "dev": "npm run dev:base -- --open",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
@@ -16,6 +17,8 @@
     "test:ci": "npm t -- --coverage",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
     "test:cypress": "cypress open",
+    "test:cypress:run": "cypress run",
+    "test:cypress:ci": "start-server-and-test dev:base http-get://localhost:8080 test:cypress:run",
     "check": "npm-check -s -u",
     "prepare": "husky install"
   },
@@ -53,6 +56,7 @@
     "mini-css-extract-plugin": "^2.7.6",
     "node-sass": "^8.0.0",
     "sass-loader": "^13.0.2",
+    "start-server-and-test": "^2.0.0",
     "style-loader": "^3.3.1",
     "ts-jest": "^29.0.4",
     "ts-loader": "^9.4.2",
