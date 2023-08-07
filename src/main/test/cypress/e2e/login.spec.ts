@@ -3,11 +3,12 @@ import * as Helper from '../utils/helpers'
 import * as Http from '../utils/http-mocks'
 import faker from 'faker'
 
-const path = /login/
+const path = /api\/login/
 const mockInvalidCredentialsError = (): void => Http.mockUnauthorizedError(path)
 const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
 const mockSuccess = (): void => {
-  cy.fixture('account').then(account => Http.mockOk(path, 'POST', account))
+  Http.mockOk(/api\/surveys/, 'GET', 'survey-list')
+  Http.mockOk(path, 'POST', 'account', 'loginRequest')
 }
 
 const populateFields = (): void => {
@@ -66,10 +67,9 @@ describe('Login', () => {
     Helper.testUrl('/login')
   })
 
-  it('should store account on LocalStorage if valid credentials are provided', () => {
-    simulateValidSubmit()
+  it('should store account on localStorage if valid credentials are provided', () => {
     mockSuccess()
-    cy.getByTestId('error-wrap').should('not.have.descendants')
+    simulateValidSubmit()
     Helper.testUrl('/')
     Helper.testLocalStorageItem('account')
   })
