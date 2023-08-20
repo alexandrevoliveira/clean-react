@@ -6,7 +6,7 @@ import FlipMove from 'react-flip-move'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-  loadSurveyResult?: LoadSurveyResult
+  loadSurveyResult: LoadSurveyResult
 }
 
 const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
