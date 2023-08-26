@@ -1,8 +1,8 @@
-const fallback = require('express-history-api-fallback')
-const express = require('express')
-const path = require('path')
+import fallback from 'express-history-api-fallback'
+import express from 'express'
+import { join } from 'path'
 const app = express()
-const root = path.join(__dirname, 'dist')
+const root = join(__dirname, 'dist')
 app.use(express.static(root))
 app.use(fallback('index.html', { root }))
 app.listen(process.env.PORT || 3000)
