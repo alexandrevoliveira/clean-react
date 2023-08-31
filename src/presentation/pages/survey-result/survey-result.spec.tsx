@@ -5,6 +5,7 @@ import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import * as router from 'react-router'
 import React from 'react'
 
 type SutTypes = {
@@ -102,6 +103,16 @@ describe('SurveyResult Component', () => {
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('reload'))
       expect(loadSurveyResultSpy.callsCount).toBe(1)
+    })
+  })
+
+  it('should go to SurveyList on back button click', async () => {
+    const navigate = jest.fn()
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => navigate)
+    makeSut()
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('back-button'))
+      expect(navigate).toHaveBeenCalledWith(-1)
     })
   })
 })
