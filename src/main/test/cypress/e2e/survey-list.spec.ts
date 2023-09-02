@@ -6,7 +6,7 @@ const mockUnexpectedError = (): void => Http.mockServerError(path, 'GET')
 const mockAccessDeniedError = (): void => Http.mockForbiddenError(path, 'GET')
 const mockSuccess = (): void => Http.mockOk(path, 'GET', 'survey-list')
 
-describe('Login', () => {
+describe('SurveyList', () => {
   beforeEach(() => {
     cy.fixture('account').then(account => {
       Helper.setLocalStorageItem('account', account)
