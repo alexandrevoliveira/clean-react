@@ -17,6 +17,8 @@
     "project": ["./tsconfig-eslint.json"]
   },
   "rules": {
+    "cypress/no-unnecessary-waiting": "off",
+    "cypress/unsafe-to-chain-command": "off",
     "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/consistent-type-imports": "off",

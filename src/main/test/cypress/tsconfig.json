@@ -3,7 +3,7 @@
     "noEmit": true,
     "types": ["cypress"],
     "isolatedModules": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
   },
   "include": [
     "../../../../node_modules/cypress",
