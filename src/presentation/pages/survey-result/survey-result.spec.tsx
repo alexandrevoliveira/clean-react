@@ -1,6 +1,6 @@
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { AccountModel } from '@/domain/models'
-import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
+import { LoadSurveyResultSpy, SaveSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -10,20 +10,27 @@ import React from 'react'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
+  saveSurveyResultSpy: SaveSurveyResultSpy
   setCurrentAccountMock: (account: AccountModel) => void
 }
 
-const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
+type SutParams = {
+  loadSurveyResultSpy?: LoadSurveyResultSpy
+  saveSurveyResultSpy?: SaveSurveyResultSpy
+}
+
+const makeSut = ({ loadSurveyResultSpy = new LoadSurveyResultSpy(), saveSurveyResultSpy = new SaveSurveyResultSpy() }: SutParams = {}): SutTypes => {
   const setCurrentAccountMock = jest.fn()
   render(
     <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
       <BrowserRouter window={window}>
-        <SurveyResult loadSurveyResult={loadSurveyResultSpy}/>
+        <SurveyResult loadSurveyResult={loadSurveyResultSpy} saveSurveyResult={saveSurveyResultSpy}/>
       </BrowserRouter>
     </ApiContext.Provider>
   )
   return {
     loadSurveyResultSpy,
+    saveSurveyResultSpy,
     setCurrentAccountMock
   }
 }
@@ -50,7 +57,7 @@ describe('SurveyResult Component', () => {
       date: new Date('2023-01-10T00:00:00')
     })
     loadSurveyResultSpy.surveyResult = surveyResult
-    makeSut(loadSurveyResultSpy)
+    makeSut({ loadSurveyResultSpy })
     await waitFor(() => {
       screen.getByTestId('survey-result')
       expect(screen.getByTestId('day')).toHaveTextContent('10')
@@ -78,7 +85,7 @@ describe('SurveyResult Component', () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     const error = new UnexpectedError()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
-    makeSut(loadSurveyResultSpy)
+    makeSut({ loadSurveyResultSpy })
     await waitFor(() => {
       expect(screen.queryByTestId('question')).not.toBeInTheDocument()
       expect(screen.getByTestId('error')).toHaveTextContent(error.message)
@@ -89,7 +96,7 @@ describe('SurveyResult Component', () => {
   it('should logout on AccessDeniedError', async () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(new AccessDeniedError())
-    const { setCurrentAccountMock } = makeSut(loadSurveyResultSpy)
+    const { setCurrentAccountMock } = makeSut({ loadSurveyResultSpy })
     await waitFor(() => {
       expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
       expect(window.location.pathname).toBe('/login')
@@ -99,7 +106,7 @@ describe('SurveyResult Component', () => {
   it('should call LoadSurveyResult on reload', async () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(new UnexpectedError())
-    makeSut(loadSurveyResultSpy)
+    makeSut({ loadSurveyResultSpy })
     await waitFor(() => { fireEvent.click(screen.getByTestId('reload')) })
     expect(loadSurveyResultSpy.callsCount).toBe(1)
   })
@@ -119,5 +126,17 @@ describe('SurveyResult Component', () => {
       fireEvent.click(answersWrap[0])
     })
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+  })
+
+  it('should call SaveSurveyResult on non active answer click', async () => {
+    const { saveSurveyResultSpy, loadSurveyResultSpy } = makeSut()
+    await waitFor(() => {
+      const answersWrap = screen.queryAllByTestId('answer-wrap')
+      fireEvent.click(answersWrap[1])
+    })
+    expect(screen.queryByTestId('loading')).toBeInTheDocument()
+    expect(saveSurveyResultSpy.params).toEqual({
+      answer: loadSurveyResultSpy.surveyResult.answers[1].answer
+    })
   })
 })
