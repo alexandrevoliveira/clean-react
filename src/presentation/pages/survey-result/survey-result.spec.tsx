@@ -100,19 +100,24 @@ describe('SurveyResult Component', () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(new UnexpectedError())
     makeSut(loadSurveyResultSpy)
-    await waitFor(() => {
-      fireEvent.click(screen.getByTestId('reload'))
-      expect(loadSurveyResultSpy.callsCount).toBe(1)
-    })
+    await waitFor(() => { fireEvent.click(screen.getByTestId('reload')) })
+    expect(loadSurveyResultSpy.callsCount).toBe(1)
   })
 
   it('should go to SurveyList on back button click', async () => {
     const navigate = jest.fn()
     jest.spyOn(router, 'useNavigate').mockImplementation(() => navigate)
     makeSut()
+    await waitFor(() => { fireEvent.click(screen.getByTestId('back-button')) })
+    expect(navigate).toHaveBeenCalledWith(-1)
+  })
+
+  it('should not present Loading on active answer click', async () => {
+    makeSut()
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('back-button'))
-      expect(navigate).toHaveBeenCalledWith(-1)
+      const answersWrap = screen.queryAllByTestId('answer-wrap')
+      fireEvent.click(answersWrap[0])
     })
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
   })
 })
