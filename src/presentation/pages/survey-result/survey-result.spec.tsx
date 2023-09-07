@@ -133,10 +133,10 @@ describe('SurveyResult Component', () => {
     await waitFor(() => {
       const answersWrap = screen.queryAllByTestId('answer-wrap')
       fireEvent.click(answersWrap[1])
-    })
-    expect(screen.queryByTestId('loading')).toBeInTheDocument()
-    expect(saveSurveyResultSpy.params).toEqual({
-      answer: loadSurveyResultSpy.surveyResult.answers[1].answer
+      expect(screen.queryByTestId('loading')).toBeInTheDocument()
+      expect(saveSurveyResultSpy.params).toEqual({
+        answer: loadSurveyResultSpy.surveyResult.answers[1].answer
+      })
     })
   })
 
@@ -168,5 +168,40 @@ describe('SurveyResult Component', () => {
       expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
       expect(window.location.pathname).toBe('/login')
     })
+  })
+
+  it('should present SurveyResult data on SaveSurveyResult success', async () => {
+    const saveSurveyResultSpy = new SaveSurveyResultSpy()
+    const surveyResult = Object.assign(mockSurveyResultModel(), {
+      date: new Date('2018-02-20T00:00:00')
+    })
+    saveSurveyResultSpy.surveyResult = surveyResult
+    makeSut({ saveSurveyResultSpy })
+    await waitFor(() => {
+      const answersWrap = screen.queryAllByTestId('answer-wrap')
+      fireEvent.click(answersWrap[1])
+    })
+    await waitFor(() => {
+      screen.getByTestId('survey-result')
+      expect(screen.getByTestId('day')).toHaveTextContent('20')
+      expect(screen.getByTestId('month')).toHaveTextContent('fev')
+      expect(screen.getByTestId('year')).toHaveTextContent('2018')
+    })
+    expect(screen.getByTestId('question')).toHaveTextContent(surveyResult.question)
+    expect(screen.getByTestId('answers').childElementCount).toBe(2)
+    const answersWrap = screen.queryAllByTestId('answer-wrap')
+    expect(answersWrap[0]).toHaveClass('active')
+    expect(answersWrap[1]).not.toHaveClass('active')
+    const images = screen.queryAllByTestId('image')
+    expect(images[0]).toHaveAttribute('src', surveyResult.answers[0].image)
+    expect(images[0]).toHaveAttribute('alt', surveyResult.answers[0].answer)
+    expect(images[1]).toBeFalsy()
+    const answers = screen.queryAllByTestId('answer')
+    expect(answers[0]).toHaveTextContent(surveyResult.answers[0].answer)
+    expect(answers[1]).toHaveTextContent(surveyResult.answers[1].answer)
+    const percents = screen.queryAllByTestId('percent')
+    expect(percents[0]).toHaveTextContent(`${surveyResult.answers[0].percent}%`)
+    expect(percents[1]).toHaveTextContent(`${surveyResult.answers[1].percent}%`)
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
   })
 })
