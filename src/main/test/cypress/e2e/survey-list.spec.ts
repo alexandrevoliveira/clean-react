@@ -4,7 +4,7 @@ import * as Http from '../utils/http-mocks'
 const path = /api\/surveys/
 const mockUnexpectedError = (): void => Http.mockServerError(path, 'GET')
 const mockAccessDeniedError = (): void => Http.mockForbiddenError(path, 'GET')
-const mockSuccess = (): void => Http.mockOk(path, 'GET', 'survey-list')
+const mockSuccess = (fixture: string = 'survey-list'): void => Http.mockOk(path, 'GET', fixture)
 
 describe('SurveyList', () => {
   beforeEach(() => {
@@ -48,10 +48,15 @@ describe('SurveyList', () => {
     Helper.testUrl('/login')
   })
 
+  it('should present survey list empty', () => {
+    mockSuccess('survey-list-empty')
+    cy.visit('')
+    cy.get('li:empty').should('have.length', 4)
+  })
+
   it('should present survey items', () => {
     mockSuccess()
     cy.visit('')
-    cy.get('li:empty').should('have.length', 4)
     cy.get('li:not(:empty)').should('have.length', 2)
     cy.get('li:nth-child(1)').then(li => {
       assert.equal(li.find('[data-testid="day"]').text(), '03')
