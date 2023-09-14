@@ -5,9 +5,10 @@ import { ApiContext } from '@/presentation/contexts'
 import { Login } from '@/presentation/pages'
 import { Helper, ValidationStub } from '@/presentation/test'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import React from 'react'
 import faker from 'faker'
+import { BrowserRouter } from 'react-router-dom'
+import { RecoilRoot } from 'recoil'
+import React from 'react'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
@@ -24,14 +25,16 @@ const makeSut = (params?: SutParams): SutTypes => {
   const authenticationSpy = new AuthenticationSpy()
   const setCurrentAccountMock = jest.fn()
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-      <BrowserRouter window={window}>
-        <Login
-          validation={validationStub}
-          authentication={authenticationSpy}
-        />
-      </BrowserRouter>
-    </ApiContext.Provider>
+    <RecoilRoot>
+      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+        <BrowserRouter window={window}>
+          <Login
+            validation={validationStub}
+            authentication={authenticationSpy}
+          />
+        </BrowserRouter>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
   return {
     authenticationSpy,

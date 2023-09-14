@@ -28,7 +28,8 @@
     "express-history-api-fallback": "^2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.15.0",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.3",
