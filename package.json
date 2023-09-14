@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev:base": "webpack-dev-server --config webpack.dev.js",
     "dev": "npm run dev:base -- --open",
-    "lint": "eslint '**/*.{ts,js,tsx,jsx}'",
+    "lint": "eslint 'src/**'",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm t -- --watch",

@@ -6,6 +6,7 @@ import { SurveyResult } from '@/presentation/pages'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import * as router from 'react-router'
+import { RecoilRoot } from 'recoil'
 import React from 'react'
 
 type SutTypes = {
@@ -22,11 +23,13 @@ type SutParams = {
 const makeSut = ({ loadSurveyResultSpy = new LoadSurveyResultSpy(), saveSurveyResultSpy = new SaveSurveyResultSpy() }: SutParams = {}): SutTypes => {
   const setCurrentAccountMock = jest.fn()
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
-      <BrowserRouter window={window}>
-        <SurveyResult loadSurveyResult={loadSurveyResultSpy} saveSurveyResult={saveSurveyResultSpy}/>
-      </BrowserRouter>
-    </ApiContext.Provider>
+    <RecoilRoot>
+      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
+        <BrowserRouter window={window}>
+          <SurveyResult loadSurveyResult={loadSurveyResultSpy} saveSurveyResult={saveSurveyResultSpy}/>
+        </BrowserRouter>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
   return {
     loadSurveyResultSpy,
@@ -207,11 +210,12 @@ describe('SurveyResult Component', () => {
 
   it('should prevent multiple answer click', async () => {
     const { saveSurveyResultSpy } = makeSut()
-    await waitFor(() => {
-      const answersWrap = screen.queryAllByTestId('answer-wrap')
-      fireEvent.click(answersWrap[1])
-      fireEvent.click(answersWrap[1])
-    })
+    await waitFor(() => screen.getByTestId('survey-result'))
+    const answersWrap = screen.queryAllByTestId('answer-wrap')
+    fireEvent.click(answersWrap[1])
+    await waitFor(() => screen.getByTestId('survey-result'))
+    fireEvent.click(answersWrap[1])
+    await waitFor(() => screen.getByTestId('survey-result'))
     expect(saveSurveyResultSpy.callsCount).toBe(1)
   })
 })
