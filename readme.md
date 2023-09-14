@@ -96,6 +96,8 @@ O objetivo do treinamento é mostrar como criar um sistema em ReactJs utilizando
 * Custom Hooks
 * UseRecoilState
 * UseResetRecoilState
+* UseRecoilValue
+* UseRecoilSetState
 * Atom
 * Router
 * Memo
