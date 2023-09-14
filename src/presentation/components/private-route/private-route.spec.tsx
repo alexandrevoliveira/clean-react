@@ -4,17 +4,20 @@ import { PrivateRoute } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
 import { render } from '@testing-library/react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { RecoilRoot } from 'recoil'
 import React from 'react'
 
 const makeSut = (account = mockAccountModel()): void => {
   render(
-    <ApiContext.Provider value={{ getCurrentAccount: () => account }}>
-      <BrowserRouter window={window}>
-        <Routes>
-          <Route path='/' element={<PrivateRoute>{makeSurveyList({})}</PrivateRoute>} />
-        </Routes>
-      </BrowserRouter>
-    </ApiContext.Provider>
+    <RecoilRoot>
+      <ApiContext.Provider value={{ getCurrentAccount: () => account }}>
+        <BrowserRouter window={window}>
+          <Routes>
+            <Route path='/' element={<PrivateRoute>{makeSurveyList({})}</PrivateRoute>} />
+          </Routes>
+        </BrowserRouter>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
 }
 
