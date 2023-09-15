@@ -1,13 +1,13 @@
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { AccountModel } from '@/domain/models'
 import { LoadSurveyResultSpy, SaveSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
-import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import * as router from 'react-router'
 import { RecoilRoot } from 'recoil'
 import React from 'react'
+import { currentAccountState } from '@/presentation/components'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
@@ -22,13 +22,12 @@ type SutParams = {
 
 const makeSut = ({ loadSurveyResultSpy = new LoadSurveyResultSpy(), saveSurveyResultSpy = new SaveSurveyResultSpy() }: SutParams = {}): SutTypes => {
   const setCurrentAccountMock = jest.fn()
+  const mockedState = { setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }
   render(
-    <RecoilRoot>
-      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
-        <BrowserRouter window={window}>
-          <SurveyResult loadSurveyResult={loadSurveyResultSpy} saveSurveyResult={saveSurveyResultSpy}/>
-        </BrowserRouter>
-      </ApiContext.Provider>
+    <RecoilRoot initializeState={({ set }) => set(currentAccountState, mockedState)}>
+      <BrowserRouter window={window}>
+        <SurveyResult loadSurveyResult={loadSurveyResultSpy} saveSurveyResult={saveSurveyResultSpy}/>
+      </BrowserRouter>
     </RecoilRoot>
   )
   return {

@@ -1,7 +1,7 @@
 import { InvalidCredentialsError } from '@/domain/errors'
-import { AuthenticationSpy } from '@/domain/test'
+import { AuthenticationSpy, mockAccountModel } from '@/domain/test'
 import { Authentication } from '@/domain/usecases'
-import { ApiContext } from '@/presentation/contexts'
+import { currentAccountState } from '@/presentation/components'
 import { Login } from '@/presentation/pages'
 import { Helper, ValidationStub } from '@/presentation/test'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -24,16 +24,15 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError
   const authenticationSpy = new AuthenticationSpy()
   const setCurrentAccountMock = jest.fn()
+  const mockedState = { setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }
   render(
-    <RecoilRoot>
-      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-        <BrowserRouter window={window}>
-          <Login
-            validation={validationStub}
-            authentication={authenticationSpy}
-          />
-        </BrowserRouter>
-      </ApiContext.Provider>
+    <RecoilRoot initializeState={({ set }) => set(currentAccountState, mockedState)}>
+      <BrowserRouter window={window}>
+        <Login
+          validation={validationStub}
+          authentication={authenticationSpy}
+        />
+      </BrowserRouter>
     </RecoilRoot>
   )
   return {

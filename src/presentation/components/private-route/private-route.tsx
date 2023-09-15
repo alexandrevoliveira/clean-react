@@ -1,13 +1,14 @@
-import { ApiContext } from '@/presentation/contexts'
+import { currentAccountState } from '@/presentation/components'
 import { Navigate } from 'react-router-dom'
-import React, { useContext } from 'react'
+import { useRecoilValue } from 'recoil'
+import React from 'react'
 
 type Props = {
   children: React.ReactNode
 }
 
 const PrivateRoute: React.FC<Props> = ({ children }: Props) => {
-  const { getCurrentAccount } = useContext(ApiContext)
+  const { getCurrentAccount } = useRecoilValue(currentAccountState)
   return getCurrentAccount()?.accessToken ? children : <Navigate to='/login' />
 }
 

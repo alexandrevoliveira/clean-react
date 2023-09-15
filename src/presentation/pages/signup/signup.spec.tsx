@@ -1,7 +1,7 @@
 import { EmailInUseError } from '@/domain/errors'
-import { AddAccountSpy } from '@/domain/test'
+import { AddAccountSpy, mockAccountModel } from '@/domain/test'
 import { AddAccount } from '@/domain/usecases'
-import { ApiContext } from '@/presentation/contexts'
+import { currentAccountState } from '@/presentation/components'
 import { SignUp } from '@/presentation/pages'
 import { Helper, ValidationStub } from '@/presentation/test'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -24,16 +24,15 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError
   const addAccountSpy = new AddAccountSpy()
   const setCurrentAccountMock = jest.fn()
+  const mockedState = { setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }
   render(
-    <RecoilRoot>
-      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-        <BrowserRouter window={window}>
-          <SignUp
-            validation={validationStub}
-            addAccount={addAccountSpy}
-          />
-        </BrowserRouter>
-      </ApiContext.Provider>
+    <RecoilRoot initializeState={({ set }) => set(currentAccountState, mockedState)}>
+      <BrowserRouter window={window}>
+        <SignUp
+          validation={validationStub}
+          addAccount={addAccountSpy}
+        />
+      </BrowserRouter>
     </RecoilRoot>
   )
   return {
