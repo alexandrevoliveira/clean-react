@@ -1,6 +1,6 @@
-import fallback from 'express-history-api-fallback'
-import express from 'express'
-import { join } from 'path'
+const fallback = require('express-history-api-fallback')
+const express = require('express')
+const { join } = require('path')
 const app = express()
 const root = join(__dirname, 'dist')
 app.use(express.static(root))
