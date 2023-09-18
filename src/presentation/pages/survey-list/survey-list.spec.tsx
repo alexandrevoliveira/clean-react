@@ -1,12 +1,10 @@
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { AccountModel } from '@/domain/models'
-import { LoadSurveyListSpy, mockAccountModel } from '@/domain/test'
-import { currentAccountState } from '@/presentation/components'
+import { LoadSurveyListSpy } from '@/domain/test'
 import { SurveyList } from '@/presentation/pages'
+import { renderComponentHelper } from '@/presentation/test'
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
-import { RecoilRoot } from 'recoil'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import React from 'react'
 
 type SutTypes = {
@@ -15,15 +13,9 @@ type SutTypes = {
 }
 
 const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
-  const setCurrentAccountMock = jest.fn()
-  const mockedState = { setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }
-  render(
-    <RecoilRoot initializeState={({ set }) => set(currentAccountState, mockedState)}>
-      <BrowserRouter window={window} >
-        <SurveyList loadSurveyList={loadSurveyListSpy}/>
-      </BrowserRouter>
-    </RecoilRoot>
-  )
+  const { setCurrentAccountMock } = renderComponentHelper({
+    children: <SurveyList loadSurveyList={loadSurveyListSpy}/>
+  })
   return {
     loadSurveyListSpy,
     setCurrentAccountMock

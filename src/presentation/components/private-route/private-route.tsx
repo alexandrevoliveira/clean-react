@@ -10,7 +10,7 @@ type Props = {
 
 const PrivateRoute: React.FC<Props> = ({ children }: Props) => {
   const { getCurrentAccount } = useRecoilValue(currentAccountState)
-  return getCurrentAccount()?.accessToken ? children : <Navigate to='/login' />
+  return getCurrentAccount()?.accessToken ? children : <Navigate to='/login' replace={true} />
 }
 
 export default PrivateRoute

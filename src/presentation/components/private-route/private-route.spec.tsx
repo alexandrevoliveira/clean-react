@@ -1,23 +1,16 @@
 import { mockAccountModel } from '@/domain/test'
 import { makeSurveyList } from '@/main/factories/pages'
-import { PrivateRoute, currentAccountState } from '@/presentation/components'
+import { PrivateRoute } from '@/presentation/components'
+import { renderComponentHelper } from '@/presentation/test'
 
-import { render } from '@testing-library/react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { RecoilRoot } from 'recoil'
+import { Route, Routes } from 'react-router-dom'
 import React from 'react'
 
 const makeSut = (account = mockAccountModel()): void => {
-  const mockedState = { setCurrentAccount: jest.fn(), getCurrentAccount: () => account }
-  render(
-    <RecoilRoot initializeState={({ set }) => set(currentAccountState, mockedState)}>
-      <BrowserRouter window={window}>
-        <Routes>
-          <Route path='/' element={<PrivateRoute>{makeSurveyList({})}</PrivateRoute>} />
-        </Routes>
-      </BrowserRouter>
-    </RecoilRoot>
-  )
+  renderComponentHelper({
+    account,
+    children: <Routes><Route path='/' element={<PrivateRoute>{makeSurveyList({})}</PrivateRoute>} /></Routes>
+  })
 }
 
 describe('PrivateRoute', () => {

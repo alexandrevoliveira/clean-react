@@ -1,14 +1,11 @@
 import { InvalidCredentialsError } from '@/domain/errors'
-import { AuthenticationSpy, mockAccountModel } from '@/domain/test'
+import { AuthenticationSpy } from '@/domain/test'
 import { Authentication } from '@/domain/usecases'
-import { currentAccountState } from '@/presentation/components'
 import { Login } from '@/presentation/pages'
-import { Helper, ValidationStub } from '@/presentation/test'
+import { Helper, ValidationStub, renderComponentHelper } from '@/presentation/test'
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import faker from 'faker'
-import { BrowserRouter } from 'react-router-dom'
-import { RecoilRoot } from 'recoil'
 import React from 'react'
 
 type SutTypes = {
@@ -24,18 +21,9 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   validationStub.errorMessage = params?.validationError
   const authenticationSpy = new AuthenticationSpy()
-  const setCurrentAccountMock = jest.fn()
-  const mockedState = { setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }
-  render(
-    <RecoilRoot initializeState={({ set }) => set(currentAccountState, mockedState)}>
-      <BrowserRouter window={window}>
-        <Login
-          validation={validationStub}
-          authentication={authenticationSpy}
-        />
-      </BrowserRouter>
-    </RecoilRoot>
-  )
+  const { setCurrentAccountMock } = renderComponentHelper({
+    children: <Login validation={validationStub} authentication={authenticationSpy} />
+  })
   return {
     authenticationSpy,
     setCurrentAccountMock

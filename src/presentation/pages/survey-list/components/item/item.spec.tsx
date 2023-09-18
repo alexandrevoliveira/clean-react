@@ -1,17 +1,15 @@
 import { mockSurveyModel } from '@/domain/test'
 import { IconName } from '@/presentation/components'
 import { SurveyItem } from '@/presentation/pages/survey-list/components'
+import { renderComponentHelper } from '@/presentation/test'
 
-import { fireEvent, render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
 
 const makeSut = (survey = mockSurveyModel()): void => {
-  render(
-    <BrowserRouter window={window}>
-      <SurveyItem survey={survey}/>
-    </BrowserRouter>
-  )
+  renderComponentHelper({
+    children: <SurveyItem survey={survey}/>
+  })
 }
 
 describe('SurveyItem Component', () => {
