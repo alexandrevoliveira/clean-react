@@ -1,6 +1,6 @@
 {
   "name": "clean-react",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Sistema em ReactJS com o uso de Hooks, Typescript, TDD, Clean Architecture, Design Patterns e SOLID principles",
   "author": "Alexandre Oliveira",
   "license": "GNU GPL3",
