@@ -4,6 +4,7 @@ import { EmailValidation, MinLengthValidation, RequiredFieldValidation, Validati
 describe('LoginValidationFactory', () => {
   it('should make ValidationComposite with correct validations', () => {
     const composite = makeLoginValidation()
+
     expect(composite).toEqual(ValidationComposite.build([
       new RequiredFieldValidation('email'),
       new EmailValidation('email'),

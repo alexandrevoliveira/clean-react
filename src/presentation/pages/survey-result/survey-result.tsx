@@ -3,6 +3,7 @@ import { LoadSurveyResult, SaveSurveyResult } from '@/domain/usecases'
 import { Error, Footer, Header, Loading } from '@/presentation/components'
 import { useErrorHandler } from '@/presentation/hooks'
 import { SurveyResultData, onSurveyAnswerState, surveyResultState } from '@/presentation/pages/survey-result/components'
+
 import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
 import React, { useEffect } from 'react'
 

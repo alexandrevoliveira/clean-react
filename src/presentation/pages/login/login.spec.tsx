@@ -4,6 +4,7 @@ import { Authentication } from '@/domain/usecases'
 import { currentAccountState } from '@/presentation/components'
 import { Login } from '@/presentation/pages'
 import { Helper, ValidationStub } from '@/presentation/test'
+
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import faker from 'faker'
 import { BrowserRouter } from 'react-router-dom'
@@ -59,6 +60,7 @@ describe('Login Component', () => {
   it('should start with initial state', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
+
     expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
     expect(screen.getByTestId('submit')).toBeDisabled()
     Helper.testStatusForField('email', validationError)
@@ -68,39 +70,51 @@ describe('Login Component', () => {
   it('should show email error if Validation fails', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
+
     Helper.populateField('email')
+
     Helper.testStatusForField('email', validationError)
   })
 
   it('should show password error if Validation fails', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
+
     Helper.populateField('password')
+
     Helper.testStatusForField('password', validationError)
   })
 
   it('should show valid email state if Validation succeeds', () => {
     makeSut()
+
     Helper.populateField('email')
+
     Helper.testStatusForField('email')
   })
 
   it('should show valid password state if Validation succeeds', () => {
     makeSut()
+
     Helper.populateField('password')
+
     Helper.testStatusForField('password')
   })
 
   it('should enable submit button if form is valid', () => {
     makeSut()
+
     Helper.populateField('email')
     Helper.populateField('password')
+
     expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   it('should show spinner on submit', async () => {
     makeSut()
+
     await simulateValidSubmit()
+
     expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
@@ -108,21 +122,27 @@ describe('Login Component', () => {
     const { authenticationSpy } = makeSut()
     const email = faker.internet.email()
     const password = faker.internet.password()
+
     await simulateValidSubmit(email, password)
+
     expect(authenticationSpy.params).toEqual({ email, password })
   })
 
   it('should call Authentication only once', async () => {
     const { authenticationSpy } = makeSut()
+
     await simulateValidSubmit()
     await simulateValidSubmit()
+
     expect(authenticationSpy.callsCount).toBe(1)
   })
 
   it('should not call Authentication if form is invalid', async () => {
     const validationError = faker.random.words()
     const { authenticationSpy } = makeSut({ validationError })
+
     await simulateValidSubmit()
+
     expect(authenticationSpy.callsCount).toBe(0)
   })
 
@@ -130,16 +150,18 @@ describe('Login Component', () => {
     const { authenticationSpy } = makeSut()
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
+
     await simulateValidSubmit()
-    await waitFor(() => {
-      expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
-      expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
-    })
+
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
 
   it('should call setCurrentAccount on success', async () => {
     const { authenticationSpy, setCurrentAccountMock } = makeSut()
+
     await simulateValidSubmit()
+
     expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.account)
     expect(window.history.length).toBe(1)
     expect(mockedUseNavigate).toHaveBeenCalledWith('/', { replace: true })
@@ -148,7 +170,9 @@ describe('Login Component', () => {
   it('should go to signup page', async () => {
     makeSut()
     const register = screen.getByTestId('signup-link')
+
     fireEvent.click(register)
+
     expect(window.history.length).toBe(2)
     expect(window.location.pathname).toBe('/signup')
   })

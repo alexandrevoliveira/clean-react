@@ -1,6 +1,7 @@
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
 import { makeLogin, makeSignUp, makeSurveyList, MakeSurveyResult } from '@/main/factories/pages'
 import { PrivateRoute, currentAccountState } from '@/presentation/components'
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import React from 'react'

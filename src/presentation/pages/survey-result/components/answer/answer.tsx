@@ -1,6 +1,7 @@
 import Styles from './answer-styles.scss'
 import { SurveyResultAnswerModel } from '@/domain/models'
 import { onSurveyAnswerState } from '@/presentation/pages/survey-result/components'
+
 import { useRecoilValue } from 'recoil'
 import React from 'react'
 
