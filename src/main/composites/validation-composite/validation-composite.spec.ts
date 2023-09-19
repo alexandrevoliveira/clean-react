@@ -1,5 +1,5 @@
+import { ValidationComposite } from '@/main/composites'
 import { FieldValidationSpy } from '@/validation/test'
-import { ValidationComposite } from '@/validation/validators'
 
 import faker from 'faker'
 
