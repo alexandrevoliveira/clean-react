@@ -1,6 +1,6 @@
 import { mockAccountModel } from '@/domain/test'
 import { makeSurveyList } from '@/main/factories/pages'
-import { PrivateRoute } from '@/presentation/components'
+import { PrivateRoute } from '@/main/proxies'
 import { renderComponentHelper } from '@/presentation/test'
 
 import { Route, Routes } from 'react-router-dom'
