@@ -1,8 +1,8 @@
 import { currentAccountState } from '@/presentation/components'
+import { useLogout } from '@/presentation/hooks'
 
-import { Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 type Props = {
   children: React.ReactNode
@@ -10,7 +10,13 @@ type Props = {
 
 const PrivateRoute: React.FC<Props> = ({ children }: Props) => {
   const { getCurrentAccount } = useRecoilValue(currentAccountState)
-  return getCurrentAccount()?.accessToken ? children : <Navigate to='/login' replace={true} />
+  const logout = useLogout()
+
+  useEffect(() => {
+    if (!getCurrentAccount()?.accessToken) logout()
+  }, [])
+
+  return children
 }
 
 export default PrivateRoute
