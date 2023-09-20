@@ -44,8 +44,9 @@ describe('SurveyList', () => {
   it('should logout on logout link click', () => {
     mockUnexpectedError()
     cy.visit('')
-    cy.getByTestId('logout').click()
-    Helper.testUrl('/login')
+    cy.getByTestId('logout').click().then(() => {
+      Helper.testUrl('/login')
+    })
   })
 
   it('should present survey list empty', () => {

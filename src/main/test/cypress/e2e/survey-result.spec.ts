@@ -69,7 +69,7 @@ describe('SurveyResult', () => {
   describe('save', () => {
     const mockUnexpectedError = (): void => Http.mockServerError(path, 'PUT')
     const mockAccessDeniedError = (): void => Http.mockForbiddenError(path, 'PUT')
-    const mockSaveSuccess = (): void => Http.mockOk(path, 'PUT', 'save-survey-result', 'save-survey-result-request')
+    const mockSaveSuccess = (): void => Http.mockOk(path, 'PUT', 'save-survey-result', 'saveSurveyResultRequest')
 
     beforeEach(() => {
       cy.fixture('account').then(account => {
@@ -109,17 +109,17 @@ describe('SurveyResult', () => {
       })
       mockSaveSuccess()
       cy.get('li:nth-child(2)').click()
-      cy.wait('@save-survey-result-request').its('response.statusCode').should('eq', 200)
-      cy.wait(1000)
-      cy.get('li:nth-child(1)').then(li => {
-        assert.equal(li.find('[data-testid="image"]').attr('src'), 'any_image')
-        assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer')
-        assert.equal(li.find('[data-testid="percent"]').text(), '50%')
-      })
-      cy.get('li:nth-child(2)').then(li => {
-        assert.notExists(li.find('[data-testid="image"]'))
-        assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer_2')
-        assert.equal(li.find('[data-testid="percent"]').text(), '50%')
+      cy.wait('@saveSurveyResultRequest').its('response.statusCode').should('eq', 200).then(() => {
+        cy.get('li:nth-child(1)').then(li => {
+          assert.equal(li.find('[data-testid="image"]').attr('src'), 'any_image')
+          assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer')
+          assert.equal(li.find('[data-testid="percent"]').text(), '50%')
+        })
+        cy.get('li:nth-child(2)').then(li => {
+          assert.notExists(li.find('[data-testid="image"]'))
+          assert.equal(li.find('[data-testid="answer"]').text(), 'any_answer_2')
+          assert.equal(li.find('[data-testid="percent"]').text(), '50%')
+        })
       })
     })
   })

@@ -1,7 +1,7 @@
 const baseUrl: string = Cypress.config().baseUrl
 
-export const testHttpCallsCount = (count: number): void => {
-  cy.get('@request.all').should('have.length', count)
+export const testHttpCallsCount = (count: number, requestAlias: string = 'request'): void => {
+  cy.get(`@${requestAlias}.all`).should('have.length', count)
 }
 
 export const testUrl = (path: string): void => {
