@@ -1,5 +1,6 @@
 import Router from '@/main/routes/router'
 import '@/presentation/styles/global.scss'
+
 import { createRoot } from 'react-dom/client'
 import React from 'react'
 

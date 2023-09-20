@@ -5,4 +5,7 @@ public
 dist
 *.scss
 *.json
-cypress.config.*
+*config.js
+*config.ts
+webpack*
+index.js
